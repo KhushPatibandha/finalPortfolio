@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>     
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Khush</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background: black;
+        overflow: hidden;
+        position: relative; /* Add position relative to the body */
+      }
+      
+      #html-overlay {
+        position: absolute;
+        top: 20%;
+        left: 12%;
+        width: 75%;
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      #overlay-content {
+        background-color: transparent; /* Update to transparent */
+        padding: 10px; /* Increase padding for larger box */
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        color: whitesmoke; /* Change text color to white */
+        text-align: left; /* Align the text to the left */
+      }
+      
+      #overlay-content h1 {
+        font-size: 40px;
+      }
+      
+      #overlay-content h2 {
+        font-size: 55px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      
+      .socials {
+        display: flex; /* Make the socials side by side */
+        justify-content: flex-start; /* Align the socials to the left */
+      }
+      
+      .socials a {
+        display: inline-block; /* Display the links as inline-block */
+        margin-right: 35px; /* Add some spacing between the links */
+        color: whitesmoke; /* Set the link color to white */
+        text-decoration: none; /* Remove the underline from the links */
+        font-size: 30px;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.153.0/build/three.module.js"
+        }
+      }
+    </script>
+</head>
+<body>
+  <div id="html-overlay">
+    <div id="overlay-content">
+      <h1>HOWDY!</h1>
+      <h2>I'm Khush Patibandha</h2>
+      <div class="socials">
+        <div class="github">
+          <a href="https://github.com/KhushPatibandha/">GitHub</a>
+        </div>
+        <div class="twitter">
+          <a href="https://twitter.com/khushstwt">Twitter</a>
+        </div>
+        <div class="linkedin">
+          <a href="https://www.linkedin.com/in/khush-patibandha-5583b8223/">Linkedin</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script defer type="module" src="main.js"></script>
+</body>
+</html>
