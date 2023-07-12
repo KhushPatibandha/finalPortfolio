@@ -58,21 +58,30 @@ function init() {
             });
         });
 
-        // ***************** Expiremental (should render multiple 3D models, but doesnt) 
-        // When you do i < 3000 (some big number) it will start lagging. That means that some process is running in the background but the cloned models are not getting rendered. 
+        const clonedModel = root.clone();
 
-        // for(let i = 0; i < 10; i++) {
-        //     const shuttle = root.clone();
-        //     shuttle.position.set(
-        //         Math.random() * 600 - 300,
-        //         Math.random() * 600 - 300,
-        //         Math.random() * 600 - 300,
-        //     );
-        //     shuttle.scale.set(0.1, 0.1, 0.1);
-        //     scene.add(shuttle);
-        //     shuttles.push(shuttle);
-        // }
-        // *****************
+        for(let i = 0; i < 4; i++) {
+            const instance = clonedModel.clone();
+            const textureCLone = textureLoader.load('assets/low_poly_space_shuttle/textures/Material_diffuse.jpeg', function() {
+                const materialClone = new THREE.MeshPhongMaterial({ map: textureCLone });
+                instance.traverse(function(node) {
+                    if(node.isMesh) {
+                        node.material = materialClone;
+                    }
+                })
+            })
+
+            instance.position.set(
+                getRandomPosition(100),
+                getRandomPosition(100),
+                getRandomPosition(100)
+            )
+            instance.scale.set(0.001, 0.001, 0.001);
+
+            scene.add(instance);
+            shuttles.push(instance);
+        }
+        scene.add(clonedModel);
 
 
         scene.add(root);
@@ -81,6 +90,19 @@ function init() {
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
+            if (root !== undefined) {
+                root.position.z += 0.05;
+            }
+
+            shuttles.forEach((shuttle) => {
+                shuttle.position.z += 0.05; // Move the instance in a straight line
+
+                if (shuttle.position.z > 300) {
+                    shuttle.position.z = -300;
+                    shuttle.position.x = getRandomPosition(100);
+                    shuttle.position.y = getRandomPosition(100);
+                }
+            });
             renderer.render(scene, camera);
         }
         
@@ -93,7 +115,7 @@ function init() {
     const light = new THREE.AmbientLight(0xffffff, 1);
     light.position.set(2, 2, 5);
     scene.add(light);
-
+    
     animate();
 }
 
@@ -102,32 +124,20 @@ function animate() {
         const x = starGeo.attributes.position.array[index * 3];
         const y = starGeo.attributes.position.array[index * 3 + 1];
         const z = starGeo.attributes.position.array[index * 3 + 2];
-  
+        
         starGeo.attributes.position.array[index * 3 + 2] += 1.0; // Move towards the camera
         if (z > 300) {
             starGeo.attributes.position.array[index * 3 + 2] = -300; // Reset position once it goes beyond the screen
         }
     });
     starGeo.attributes.position.needsUpdate = true;
-
-    // makes the loaded model move in a straight line. 
-    if(root != undefined) {
-        root.position.z += 0.05;
-    }
-
-    // added as an expirement(should work, but dosent)
-    // shuttles.forEach((shuttle) => {
-    //     // shuttle.position.z += 1;
-    //     if(root != undefined) {
-    //         shuttle.position.z += 0.05;
-    //     }
-    //     if(shuttle.position.z > 300) {
-    //         shuttle.position.z = -300;
-    //     }
-    // })
-
     
-    renderer.render(scene, camera);
     requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 }
+
+function getRandomPosition(range) {
+    return Math.random() * range - range / 2;
+}
+
 init();
